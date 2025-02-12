@@ -1,6 +1,7 @@
 // import TestVue1 from '@/views/TestVue1.vue';
 import {createRouter, createWebHistory} from 'vue-router';
 import { practiceRouter } from './practiceRouter';
+import { memberRouter } from './memberRouter';
 
 const routes = [
     // {
@@ -9,6 +10,7 @@ const routes = [
     //     component: TestVue1
     // },
     ...practiceRouter,
+    ...memberRouter,
 ]
 
 const router = createRouter({

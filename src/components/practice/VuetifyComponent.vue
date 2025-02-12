@@ -65,8 +65,8 @@
                 정말 취소 하시겠습니까?
             </v-card-title>
             <v-card-actions>
-                <v-btn color="primary">예</v-btn>
-                <v-btn color="secondary">아니오</v-btn>
+                <v-btn color="primary" @click="resetModal()">예</v-btn>
+                <v-btn color="secondary" @click="resetModal()">아니오</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -98,6 +98,9 @@ export default {
         spaRounting2() {
             // 새로고침없음. 이름기반 라우팅
             this.$router.push({name: "ModelingComponent"})
+        },
+        resetModal() {
+            this.trueOrFalse = false;
         }
     }
 }
