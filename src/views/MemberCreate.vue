@@ -7,7 +7,7 @@
                         회원가입
                     </v-card-title>
                     <v-card-text>
-                        <v-form>
+                        <v-form @keydown.enter="create">
                             <v-text-field
                             label="name"
                             v-model="name"
@@ -20,7 +20,6 @@
                             type="email"
                             prepend-icon="mdi-email"
                             required
-                            :rules="[emailRule]"
                             />
                             <v-text-field
                             label="password"

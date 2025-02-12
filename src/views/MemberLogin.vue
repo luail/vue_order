@@ -7,7 +7,7 @@
                         로그인
                     </v-card-title>
                     <v-card-text>
-                        <v-form>
+                        <v-form @keydown.enter="doLogin">
                             <v-text-field
                             label="email"
                             v-model="email"
@@ -44,18 +44,7 @@ export default {
             password:""
         }
     },
-    mounted() {
-    window.addEventListener("keydown", this.handleEnter);
-    },
-    beforeUnmount() {
-    window.removeEventListener("keydown", this.handleEnter);
-    },
     methods: {
-        handleEnter(event) {
-            if (event.key === "Enter") {
-            this.doLogin();
-            }
-        },
         async doLogin() {
             // json으로 보내는 방법은 객체를 만들어주면 된다.
             const loginData = {email:this.email, password:this.password};
