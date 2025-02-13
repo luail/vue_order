@@ -2,6 +2,7 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import { practiceRouter } from './practiceRouter';
 import { memberRouter } from './memberRouter';
+import { productRouter } from './productRouter';
 
 const routes = [
     // {
@@ -11,6 +12,7 @@ const routes = [
     // },
     ...practiceRouter,
     ...memberRouter,
+    ...productRouter
 ]
 
 const router = createRouter({
