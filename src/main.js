@@ -28,10 +28,22 @@ axios.interceptors.request.use(
 // rt마저 만료되었을때는 login창으로 이동
 axios.interceptors.response.use(
     response => response,
-    error => {
+    async error => {
         if(error.response && error.response.status === 401 ) {
-            
+            try{
+                const refreshToken = localStorage.getItem('refreshToken')
+                localStorage.removeItem('token')
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/member/refresh-token`, {refreshToken})
+                console.log(response)
+                const token = response.data.token;
+                localStorage.setItem('token', token)
+                window.location.reload()
+            } catch(e) {
+                localStorage.clear()
+                window.location.href = "/member/login"
+            }
         }
+        return Promise.reject(error)
     }
 
 )
