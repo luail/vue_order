@@ -63,14 +63,48 @@ export default {
         return{
             //예시 : {1:ture, 2:false, 3:ture}
             selected:{},
-            productList:[]
+            productList:[],
+            pageSize: 7,
+            currentPage: 0,
+            isLoding:false,
+            isLastPage:false
         }
     },
     async created() {
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`)
-        this.productList = response.data.content.map(p => ({...p, productCount:0}))
+        this.loadData();
+        window.addEventListener('scroll', this.scrollPagenation)
     },
     methods: {
+        async loadData() {
+            try{
+                this.isLoding=true
+                // params라는 키워드를 사용하면 아래 데이터가 ?size=xxx&page=yyy 형태의 파라미터 형식으로 전송
+            let params ={
+                size: this.pageSize,
+                page: this.currentPage
+            }
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`, {params})
+            const additonalData = response.data.content.map(p => ({...p, productCount:0}))
+            if(additonalData.length == 0) {
+                this.isLastPage=true
+                return
+            }
+            // 기존의 productList에 additionalData가 추가 되는 형식 그냥 =을 쓰면 덮어씌워지게 된다.
+            this.productList = [...this.productList, ...additonalData]
+            this.currentPage++;
+            this.isLoding=false
+        } catch(e) {
+            console.log(e)
+        }
+        },
+        scrollPagenation() {
+            // 화면높이 + 스크롤로 이동한 거리 > 전체화면 - n(내가 원하는 길이)가 성립되면 추가 데이터 로드
+            const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+            if(isBottom && !this.isLoding && !this.isLastPage) {
+                this.loadData();
+            }
+
+        },
         addCart(){
 
         },
