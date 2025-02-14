@@ -152,7 +152,7 @@ export default {
                                     .map(key => {
                                         const product = this.productList.filter(p=>p.productCount>0).find(p=>p.id==key)
                                         if(product) {
-                                            return{productId:product.id, productCount:product.productCount};
+                                            return{productId:product.id, name:product.name, productCount:product.productCount};
                                         }else{
                                             return null;
                                         }

@@ -1,8 +1,8 @@
 // 변수초기화
 function initState() {
     return{
-        productsInCart: [],
-        totalQuantity: 0,
+        productsInCart: JSON.parse(localStorage.getItem('productsInCart')) || [],
+        totalQuantity: localStorage.getItem('totalQuantity') || 0,
     }
 }
 
@@ -14,13 +14,32 @@ const cart = {
     // 그 이유는 여러 mutation의 조합을 actions에서 정의할 수 있기 때문.
     mutations:{
         addCart(state, product) {
-            state.productsInCart.push(product)
-            state.totalQuantity += product.productCount;
+            const existProduct = state.productsInCart.find(p => p.productId===product.productId);
+            if(existProduct) {
+                existProduct.productCount += product.productCount
+            } else {
+                state.productsInCart.push(product)
+            }
+
+            state.totalQuantity = parseInt(state.totalQuantity) + product.productCount;
+            
+            localStorage.setItem("productsInCart", JSON.stringify(state.productsInCart))
+            localStorage.setItem("totalQuantity", state.totalQuantity)
+
+        },
+        clearCart(state) {
+            state.productsInCart = [],
+            state.totalQuantity = 0,
+            localStorage.removeItem('productsInCart')
+            localStorage.removeItem('totalQuantity')
         }
     },
     actions:{
         addCart(context, product) {
             context.commit('addCart', product)
+        },
+        clearCart(context){
+            context.commit('clearCart')
         }
     },
     // 값을 가져가기위한 메서드
