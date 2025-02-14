@@ -13,7 +13,7 @@
                     <v-btn :to="{path:'/'}">java shop</v-btn>
                 </v-col>
                 <v-col class="d-flex justify-end">
-                    <v-btn v-if="isLogin" :to="{path:'/order/cart'}">장바구니</v-btn>
+                    <v-btn v-if="isLogin" :to="{path:'/order/cart'}">장바구니 {{ getTotalQauntity }}</v-btn>
                     <v-btn :to="{path:'/product/list'}">상품목록</v-btn>
                     <v-btn v-if="isLogin" :to="{path:'/member/mypage'}">MyPage</v-btn>
                     <v-btn v-if="!isLogin" :to="{path:'/member/create'}">회원가입</v-btn>
@@ -33,6 +33,11 @@ export default{
             userRole:null,
             isLogin:false,
         }
+    },
+    computed:{
+        getTotalQauntity(){
+            return this.$store.getters.getTotalQauntity;
+        },
     },
     created() {
         const token = localStorage.getItem("token")

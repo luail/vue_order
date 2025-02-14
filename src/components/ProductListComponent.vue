@@ -148,7 +148,16 @@ export default {
 
         },
         addCart(){
-
+            const orderProductList = Object.keys(this.selected).filter(key=>this.selected[key]===true)
+                                    .map(key => {
+                                        const product = this.productList.filter(p=>p.productCount>0).find(p=>p.id==key)
+                                        if(product) {
+                                            return{productId:product.id, productCount:product.productCount};
+                                        }else{
+                                            return null;
+                                        }
+                                    }).filter(p=> p != null);
+            orderProductList.forEach(p => this.$store.dispatch('addCart', p));
         },
         async createOrder() {
             // selected된 product만 필터링.
@@ -162,7 +171,6 @@ export default {
                                             return null;
                                         }
                                     }).filter(p=> p != null)
-                                    ;
             console.log(orderProductList)
             if(orderProductList.length<1) {
                 alert("주문선택하신 물건이 없습니다.")

@@ -24,11 +24,15 @@ const practice = {
         increament(context){
             // vuex에서 mutations를 호출할때는 commit 메서드 사용
             context.commit('increamentCount')
+        },
+        updateMessage(context, newMessage){
+            context.commit('updateMessage', newMessage)
         }
     },
     // 값을 가져가기위한 메서드
     getters:{
-        getCount: state => state.count
+        getCount: state => state.count,
+        getMessage: state => state.message,
     }
 }
 export default practice
