@@ -1,8 +1,8 @@
 <template>
     <!-- 문자열로 넘길경우에는 변수명=형태, 그외에는 :변수명 형태로 전달 -->
     <ProductListComponent
-     :isAdmin="false"
-     pageTitle="상품목록"
+     :isAdmin="true"
+     pageTitle="상품관리"
     />
 </template>
 <script>
