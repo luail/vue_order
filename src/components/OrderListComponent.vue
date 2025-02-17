@@ -10,8 +10,27 @@
                         <v-data-table
                         :headers="tableHeaders"
                         :items="orderList"
+                        class="elevation-1"
+                        show-expand
                         >
-                            
+                        <template v-slot:[`item.actions`]="{item}">
+                            <v-btn v-if="item.orderStatus==='ORDERED'" @click="cancel(item.id)">
+                                CANCEL
+                            </v-btn>
+                        </template>
+                        <template v-slot:expanded-row="{item}">
+                            <v-row>
+                                <v-col>
+                                    <v-list-item v-for="orderDetail in item.orderDetails" :key="orderDetail.detailId">
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ orderDetail.productName }} {{ orderDetail.count }}
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-col>
+                            </v-row>
+                        </template>
                         </v-data-table>
                     </v-card-text>
                 </v-card>
@@ -23,6 +42,7 @@
 import axios from 'axios';
 
 export default {
+    props:['isMyPage'],
     data(){
         return{
             tableHeaders:[{title:"ID", key:'id', align:'start'},
@@ -34,11 +54,19 @@ export default {
         }
     },
     async created(){
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/ordering/list`);
-        this.orderList = response.data;
+        if(this.isMyPage) {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/ordering/myorders`);
+            this.orderList = response.data;
+        } else {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/ordering/list`);
+            this.orderList = response.data;
+        }
     },
     methods:{
-
+        async cancel(id) {
+            await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/ordering/${id}/cancel`)
+            window.location.reload()
+        },
     }
 }
 </script>

@@ -1,5 +1,5 @@
-import OrderListComponent from "@/components/OrderListComponent.vue";
 import OrderCart from "@/views/OrderCart.vue";
+import OrderList from "@/views/OrderList.vue";
 
 export const orderRouter = [
   {
@@ -9,8 +9,8 @@ export const orderRouter = [
   },
   {
     path: '/order/list',
-    name: 'OrderListComponent',
-    component: OrderListComponent
+    name: 'OrderList',
+    component: OrderList
   },
  
 ]
