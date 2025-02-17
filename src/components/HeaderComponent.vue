@@ -6,7 +6,7 @@
                     <div v-if="userRole==='ADMIN'">
                         <v-btn :to="{path:'/member/list'}">회원관리</v-btn>
                         <v-btn :to="{path:'/product/manage'}">상품관리</v-btn>
-                        <v-btn>실시간주문건수</v-btn>
+                        <v-btn :to="{path:'/order/list'}">실시간주문건수</v-btn>
                     </div>
                 </v-col>
                 <v-col class="text-center">
